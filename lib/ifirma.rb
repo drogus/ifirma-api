@@ -17,6 +17,12 @@ class Ifirma
     @username     = options[:config][:username]
   end
 
+  [:get, :post, :put, :delete, :head].each do |method|
+    define_method(method) do |*args, &block|
+      connection.send(method, *args, &block)
+    end
+  end
+
 private
 
   def connection
