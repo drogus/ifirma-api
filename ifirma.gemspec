@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'faraday', '~> 0.7.4'
   gem.add_dependency 'faraday_middleware', '~> 0.7.0'
   gem.add_dependency 'faraday-stack', '~> 0.1.3'
-  gem.add_dependency 'multi_json', '~> 1.0.0'
+  gem.add_dependency 'yajl-ruby', '~> 1.0'
   gem.add_development_dependency 'rake', '~> 0.9'
   gem.add_development_dependency 'rspec', '~> 2.6'
   gem.add_development_dependency 'webmock', '~> 1.7'
