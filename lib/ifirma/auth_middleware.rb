@@ -13,8 +13,6 @@ class Ifirma
       headers = env[:request_headers]
 
       headers["Authentication"] = authentication(env)
-      headers["Content-Type"]   = "application/json; charset=utf-8"
-      headers["Accept"]         = "application/json"
 
       @app.call(env)
     end
@@ -29,7 +27,11 @@ class Ifirma
       digest       = OpenSSL::Digest::Digest.new('sha1')
       data         = env[:url].to_s + username + "faktura" + env[:body].to_s
       message_hash = OpenSSL::HMAC.digest(digest, invoices_key, data)
-      message_hash.each_byte.map { |a| a.to_s(16) }.join("")
+      bin2hex(message_hash)
+    end
+
+    def bin2hex(str)
+      str.unpack("H*").first
     end
 
     def decode_key(key)
