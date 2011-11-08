@@ -5,6 +5,7 @@ require 'yajl'
 
 require 'ifirma/version'
 require 'ifirma/auth_middleware'
+require 'ifirma/response'
 
 class Ifirma
   def initialize(options = {})
@@ -25,7 +26,18 @@ class Ifirma
   end
 
   def create_invoice(attrs)
-    post "/iapi/fakturakraj.json", normalize_attributes_for_request(attrs)
+    response = post("/iapi/fakturakraj.json", normalize_attributes_for_request(attrs))
+    Response.new(response.body["response"])
+  end
+
+  def get_invoice(invoice_id, type = 'pdf')
+    json_invoice = get("/iapi/fakturakraj/#{invoice_id}.json")
+    response = Response.new(json_invoice.body["response"])
+    if response.success?
+      response = get("/iapi/fakturakraj/#{invoice_id}.#{type}")
+      response = Response.new(response.body)
+    end
+    response
   end
 
   ATTRIBUTES_MAP = {
@@ -37,7 +49,7 @@ class Ifirma
     :sale_date_format => "FormatDatySprzedazy",
     :due_date         => "TerminPlatnosci",
     :payment_type     => "SposobZaplaty",
-    :designation_type => "RodzajPodpisuOdiorcy",
+    :designation_type => "RodzajPodpisuOdbiorcy",
     :gios             => "WidocznyNumerGios",
     :number           => "Numer",
     :customer         => {
