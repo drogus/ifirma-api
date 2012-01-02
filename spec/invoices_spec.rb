@@ -16,7 +16,9 @@ describe 'invoices' do
       :designation_type => "BPO",
       :gios             => false,
       :number           => nil,
+      :customer_id      => 'Joe Black',
       :customer         => {
+        :id      => 'Joe Black',
         :name    => "joe",
         :nip     => "333-333-33-33",
         :street  => "Marszalkowska",
@@ -36,25 +38,27 @@ describe 'invoices' do
     }
 
     @body = {
-      "Zaplacono"            => 0,
-      "LiczOd"               => "NET",
-      "NumerKontaBankowego"  => "11110011001100110011001100",
-      "DataWystawienia"      => "2011-10-20",
-      "DataSprzedazy"        => "2011-10-21",
-      "FormatDatySprzedazy"  => "DZN",
-      "TerminPlatnosci"      => "2011-11-20",
-      "SposobZaplaty"        => "PRZ",
-      "RodzajPodpisuOdbiorcy" => "BPO",
-      "WidocznyNumerGios"    => false,
-      "Numer"                => nil,
-      "Kontrahent"           => {
-        "Nazwa"       => "joe",
-        "NIP"         => "333-333-33-33",
-        "Ulica"       => "Marszalkowska",
-        "KodPocztowy" => "12-345",
-        "Miejscowosc" => "Warszawa",
-        "Email"       => "joe@example.org",
-        "Telefon"     => "123456789"
+      "Zaplacono"                => 0,
+      "LiczOd"                   => "NET",
+      "NumerKontaBankowego"      => "11110011001100110011001100",
+      "DataWystawienia"          => "2011-10-20",
+      "DataSprzedazy"            => "2011-10-21",
+      "FormatDatySprzedazy"      => "DZN",
+      "TerminPlatnosci"          => "2011-11-20",
+      "SposobZaplaty"            => "PRZ",
+      "RodzajPodpisuOdbiorcy"    => "BPO",
+      "WidocznyNumerGios"        => false,
+      "Numer"                    => nil,
+      "IdentyfikatorKontrahenta" => 'Joe Black',
+      "Kontrahent"               => {
+        "Identyfikator" => 'Joe Black',
+        "Nazwa"         => "joe",
+        "NIP"           => "333-333-33-33",
+        "Ulica"         => "Marszalkowska",
+        "KodPocztowy"   => "12-345",
+        "Miejscowosc"   => "Warszawa",
+        "Email"         => "joe@example.org",
+        "Telefon"       => "123456789"
       },
       "Pozycje" => [{
         "StawkaVat"       => "0.07",
@@ -73,10 +77,11 @@ describe 'invoices' do
   it "sends an invoice" do
     headers = {
       'Accept' => 'application/json',
-      'Authentication' => 'IAPIS user=drogus, hmac-sha1=4f52c4898a01f8d96ff096f0c8defcd9809a29a2',
+      'Authentication' => 'IAPIS user=drogus, hmac-sha1=32fd2bb0d4746c286a0a2cf68f0d224bdc29b9f8',
       'Content-Type' => 'application/json; charset=utf-8',
       'User-Agent' => 'Ruby'
     }
+
     stub_request(:post, "https://www.ifirma.pl/iapi/fakturakraj.json").
       with(:headers => headers, :body => @encoded_body).
       to_return(:body=>{"response"=>{"Kod"=>0, "Informacja"=>"Faktura została pomyślnie dodana.", "Identyfikator"=>5721327}})
@@ -97,7 +102,7 @@ describe 'invoices' do
 
     headers = {
       'Accept' => 'application/json',
-      'Authentication' => 'IAPIS user=drogus, hmac-sha1=6eab3a69686e7967ab50f3e5e27919ef9d0265a7',
+      'Authentication' => 'IAPIS user=drogus, hmac-sha1=a7567c201a87bd5ef4a386408e3387fab1d4231c',
       'Content-Type' => 'application/json; charset=utf-8',
       'User-Agent' => 'Ruby'
     }
