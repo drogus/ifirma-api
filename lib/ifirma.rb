@@ -52,6 +52,7 @@ class Ifirma
     :designation_type => "RodzajPodpisuOdbiorcy",
     :gios             => "WidocznyNumerGios",
     :number           => "Numer",
+    :full_number      => "PelnyNumer",
     :customer_id      => "IdentyfikatorKontrahenta",
     :customer         => {
       :id       => 'Identyfikator',
