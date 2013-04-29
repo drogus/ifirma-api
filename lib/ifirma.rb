@@ -54,6 +54,7 @@ class Ifirma
     :number           => "Numer",
     :full_number      => "PelnyNumer",
     :customer_id      => "IdentyfikatorKontrahenta",
+    :customer_nip     => "NIPKontrahenta",
     :customer         => {
       :id       => 'Identyfikator',
       :customer => "Kontrahent",
